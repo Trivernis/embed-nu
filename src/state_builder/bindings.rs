@@ -449,7 +449,7 @@ pub fn bind_experimental_commands(engine_state: &mut EngineState) {
 
 #[inline]
 fn bind<F: Fn(&mut StateWorkingSet)>(engine_state: &mut EngineState, bind_fn: F) {
-    let mut working_set = StateWorkingSet::new(&engine_state);
+    let mut working_set = StateWorkingSet::new(engine_state);
     bind_fn(&mut working_set);
     let delta = working_set.render();
     engine_state
