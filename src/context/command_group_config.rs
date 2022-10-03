@@ -3,14 +3,14 @@ macro_rules! command_group_config {
     ($(#[doc=$doc:literal] $group:ident),*) => {
 
         /// Enables or disables certain command groups
-        #[derive(Clone, Debug)]
+        #[derive(Clone, Debug, Default)]
         pub struct CommandGroupConfig {
             $(pub(crate) $group: bool,)*
         }
 
         impl CommandGroupConfig {
             /// Enables all commands
-            pub fn all_groups(&mut self, enabled: bool) -> &mut Self {
+            pub fn all_groups(mut self, enabled: bool) -> Self {
                 $(
                     self.$group = enabled;
                 )*
@@ -22,7 +22,7 @@ macro_rules! command_group_config {
             paste::item! {
                 #[doc=$doc]
                 #[inline]
-                pub fn [< $group _group>](&mut self, enabled: bool) -> &mut Self {
+                pub fn [< $group _group>](mut self, enabled: bool) -> Self {
                     self.$group = enabled;
 
                     self

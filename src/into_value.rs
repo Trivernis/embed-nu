@@ -1,7 +1,7 @@
 use nu_protocol::{Span, Value};
 use rusty_value::{Fields, HashableValue, RustyValue};
 
-use crate::utils::SpanEmpty;
+use crate::utils::NewEmpty;
 
 pub struct RawValue(Value);
 
