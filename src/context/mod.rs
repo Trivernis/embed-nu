@@ -4,14 +4,16 @@ mod command_group_config;
 pub use builder::*;
 pub use command_group_config::CommandGroupConfig;
 use nu_protocol::{
-    ast::Block,
+    ast::{Block, Call},
     engine::{EngineState, Stack},
-    PipelineData,
+    PipelineData, Span,
 };
 
 use crate::{
+    argument::Argument,
     error::{CrateError, CrateResult},
     utils::parse_nu_script,
+    NewEmpty,
 };
 
 /// Represents the evaluation context of nu scripts and commands
@@ -50,6 +52,47 @@ impl Context {
         let block = parse_nu_script(&mut self.engine_state, contents.to_string())?;
 
         self.eval_block(&block, input)
+    }
+
+    /// Returns if the given function exists in the context
+    pub fn has_fn<S: AsRef<str>>(&mut self, name: S) -> bool {
+        self.engine_state
+            .find_decl(name.as_ref().as_bytes(), &vec![])
+            .is_some()
+    }
+
+    /// Calls a function by the given name
+    /// Errs if the function doesn't exist
+    pub fn call_fn<S: AsRef<str>, I: IntoIterator<Item = Argument>>(
+        &mut self,
+        name: S,
+        args: I,
+    ) -> CrateResult<PipelineData> {
+        let args = args
+            .into_iter()
+            .map(|a: Argument| a.into_nu_argument())
+            .collect::<Vec<_>>();
+
+        let decl_id = self
+            .engine_state
+            .find_decl(name.as_ref().as_bytes(), &vec![])
+            .ok_or_else(|| CrateError::FunctionNotFound(name.as_ref().to_string()))?;
+        let call = Call {
+            decl_id,
+            head: Span::empty(),
+            arguments: args,
+            redirect_stdout: true,
+            redirect_stderr: true,
+        };
+
+        let data = nu_engine::eval_call(
+            &self.engine_state,
+            &mut self.stack,
+            &call,
+            PipelineData::empty(),
+        )?;
+
+        Ok(data)
     }
 
     /// Prints the data of the given pipeline to stdout

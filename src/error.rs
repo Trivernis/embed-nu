@@ -11,4 +11,7 @@ pub enum CrateError {
 
     #[error("Parse Error {0}")]
     NuParseError(#[from] ParseError),
+
+    #[error("Could not find the function {0}")]
+    FunctionNotFound(String),
 }
