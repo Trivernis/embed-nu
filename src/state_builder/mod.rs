@@ -9,10 +9,7 @@ mod bindings;
 mod command_group_config;
 pub use command_group_config::CommandGroupConfig;
 
-use crate::{
-    error::CrateResult,
-    utils::{IntoValue, SpanEmpty},
-};
+use crate::{error::CrateResult, into_value::IntoValue, utils::SpanEmpty};
 
 /// Builder to create a new nu engine state
 pub struct StateBuilder {
