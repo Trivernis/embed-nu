@@ -1,3 +1,4 @@
+#![doc=include_str!("../README.md")]
 pub(crate) mod argument;
 pub(crate) mod context;
 pub(crate) mod error;
