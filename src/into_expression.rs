@@ -47,9 +47,9 @@ impl ValueIntoExpression for Value {
             } => {
                 let mut entries = Vec::new();
 
-                for i in 0..cols.len() {
-                    let col = cols.remove(i).into_expression();
-                    let val = vals.remove(i).into_expression();
+                for _ in 0..cols.len() {
+                    let col = cols.remove(0).into_expression();
+                    let val = vals.remove(0).into_expression();
                     entries.push((col, val));
                 }
 

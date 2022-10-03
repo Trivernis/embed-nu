@@ -10,11 +10,13 @@ pub enum Argument {
 
 impl Argument {
     /// Creates a new named argument. No value means passing the argument as a flag (like --verbose)
+    #[inline]
     pub fn named<S: ToString, E: IntoExpression>(name: S, value: Option<E>) -> Self {
         Self::Named((name.to_string(), value.map(|v| v.into_expression())))
     }
 
     /// Creates a new positional argument
+    #[inline]
     pub fn positional<E: IntoExpression>(value: E) -> Self {
         Self::Positional(value.into_expression())
     }
@@ -40,12 +42,14 @@ pub trait IntoArgument {
 }
 
 impl<E: IntoExpression> IntoArgument for E {
+    #[inline]
     fn into_argument(self) -> Argument {
         Argument::positional(self)
     }
 }
 
 impl IntoArgument for Argument {
+    #[inline]
     fn into_argument(self) -> Argument {
         self
     }

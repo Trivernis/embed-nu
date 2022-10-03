@@ -1,5 +1,6 @@
 use embed_nu::{CommandGroupConfig, Context, NewEmpty};
 use nu_protocol::PipelineData;
+use rusty_value::RustyValue;
 
 #[test]
 fn it_evals_strings() {
@@ -11,6 +12,12 @@ fn it_evals_strings() {
         )
         .unwrap();
     ctx.print_pipeline(pipeline).unwrap()
+}
+
+#[derive(RustyValue)]
+struct TestArg {
+    foo: String,
+    bar: usize,
 }
 
 #[test]
@@ -31,7 +38,11 @@ fn it_executes_functions() {
     ctx.call_fn("hello", [] as [String; 0]).unwrap();
     assert!(ctx.has_fn("world") == false);
 
-    let pipeline = ctx.call_fn("echo", ["Hello from Rust"]).unwrap();
+    let test_arg = TestArg {
+        foo: String::from("Hello World"),
+        bar: 12,
+    };
+    let pipeline = ctx.call_fn("echo", [test_arg]).unwrap();
     ctx.print_pipeline(pipeline).unwrap();
 }
 

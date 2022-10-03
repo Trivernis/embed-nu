@@ -13,6 +13,7 @@ pub trait IntoValue {
 }
 
 impl IntoValue for RawValue {
+    #[inline]
     fn into_value(self) -> Value {
         self.0
     }
@@ -41,6 +42,7 @@ impl HashableIntoString for HashableValue {
 }
 
 impl RustyIntoValue for Vec<Value> {
+    #[inline]
     fn into_value(self) -> Value {
         Value::List {
             vals: self,
@@ -190,6 +192,7 @@ impl RustyIntoValue for rusty_value::Float {
 }
 
 impl<R: RustyValue> IntoValue for R {
+    #[inline]
     fn into_value(self) -> Value {
         self.into_rusty_value().into_value()
     }
