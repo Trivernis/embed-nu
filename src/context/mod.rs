@@ -10,7 +10,7 @@ use nu_protocol::{
 };
 
 use crate::{
-    argument::Argument,
+    argument::IntoArgument,
     error::{CrateError, CrateResult},
     utils::parse_nu_script,
     NewEmpty,
@@ -63,14 +63,14 @@ impl Context {
 
     /// Calls a function by the given name
     /// Errs if the function doesn't exist
-    pub fn call_fn<S: AsRef<str>, I: IntoIterator<Item = Argument>>(
+    pub fn call_fn<S: AsRef<str>, I: IntoIterator<Item = A>, A: IntoArgument>(
         &mut self,
         name: S,
         args: I,
     ) -> CrateResult<PipelineData> {
         let args = args
             .into_iter()
-            .map(|a: Argument| a.into_nu_argument())
+            .map(|a| a.into_argument().into_nu_argument())
             .collect::<Vec<_>>();
 
         let decl_id = self

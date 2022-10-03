@@ -33,3 +33,20 @@ impl Argument {
         }
     }
 }
+
+/// Converts a given type into an argument
+pub trait IntoArgument {
+    fn into_argument(self) -> Argument;
+}
+
+impl<E: IntoExpression> IntoArgument for E {
+    fn into_argument(self) -> Argument {
+        Argument::positional(self)
+    }
+}
+
+impl IntoArgument for Argument {
+    fn into_argument(self) -> Argument {
+        self
+    }
+}

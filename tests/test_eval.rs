@@ -1,4 +1,4 @@
-use embed_nu::{Argument, CommandGroupConfig, Context, NewEmpty};
+use embed_nu::{CommandGroupConfig, Context, NewEmpty};
 use nu_protocol::PipelineData;
 
 #[test]
@@ -28,11 +28,10 @@ fn it_executes_functions() {
         PipelineData::empty(),
     )
     .unwrap();
-    ctx.call_fn("hello", []).unwrap();
+    ctx.call_fn("hello", [] as [String; 0]).unwrap();
     assert!(ctx.has_fn("world") == false);
 
-    let arg = Argument::positional("Hello from rust");
-    let pipeline = ctx.call_fn("echo", [arg]).unwrap();
+    let pipeline = ctx.call_fn("echo", ["Hello from Rust"]).unwrap();
     ctx.print_pipeline(pipeline).unwrap();
 }
 
