@@ -6,7 +6,7 @@ pub(crate) mod into_expression;
 pub(crate) mod into_value;
 pub(crate) mod utils;
 
-pub use argument::Argument;
+pub use argument::{Argument, IntoArgument};
 pub use context::{CommandGroupConfig, Context, ContextBuilder};
 pub use into_value::*;
 pub use nu_protocol::PipelineData;
