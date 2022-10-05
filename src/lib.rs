@@ -10,7 +10,7 @@ pub use argument::{Argument, IntoArgument};
 pub use context::{CommandGroupConfig, Context, ContextBuilder};
 pub use into_expression::*;
 pub use into_value::*;
-pub use nu_protocol::PipelineData;
+pub use nu_protocol::{PipelineData, Value};
 pub use rusty_value;
 pub use rusty_value::RustyValue;
 pub use utils::NewEmpty;
