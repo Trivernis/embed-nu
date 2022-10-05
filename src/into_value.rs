@@ -37,6 +37,7 @@ impl HashableIntoString for HashableValue {
                 .map(|v| v.into_string())
                 .collect::<Vec<_>>()
                 .join(","),
+            HashableValue::None => String::new(),
         }
     }
 }
@@ -97,6 +98,9 @@ impl RustyIntoValue for rusty_value::Value {
                     span: Span::empty(),
                 }
             }
+            rusty_value::Value::None => Value::Nothing {
+                span: Span::empty(),
+            },
         }
     }
 }
