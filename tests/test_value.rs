@@ -1,13 +1,14 @@
 use embed_nu::IntoValue;
 use nu_protocol::Value;
 use rusty_value::RustyValue;
-use std::mem;
+use std::{mem, path::PathBuf};
 
 #[derive(RustyValue, Debug, Clone)]
 pub struct TestStruct {
     foo: String,
     bar: Vec<String>,
     baz: TestEnum,
+    path: PathBuf,
 }
 
 #[derive(RustyValue, Debug, Clone)]
@@ -28,8 +29,10 @@ impl TestStruct {
                     foo: "World".to_string(),
                     bar: vec![],
                     baz: TestEnum::Empty,
+                    path: PathBuf::from("/tmp"),
                 }),
             },
+            path: PathBuf::from("/"),
         }
     }
 }

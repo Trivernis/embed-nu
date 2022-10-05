@@ -122,6 +122,7 @@ impl RustyIntoValue for rusty_value::Primitive {
                 val,
                 span: Span::empty(),
             },
+            rusty_value::Primitive::OsString(osstr) => osstr.to_string_lossy().into_value(),
         }
     }
 }
@@ -144,11 +145,20 @@ impl RustyIntoValue for rusty_value::Fields {
                 }
             }
             rusty_value::Fields::Unnamed(unnamed) => {
-                let vals = unnamed.into_iter().map(|v| v.into_value()).collect();
+                let mut vals = unnamed
+                    .into_iter()
+                    .map(|v| v.into_value())
+                    .collect::<Vec<_>>();
 
-                Value::List {
-                    vals,
-                    span: Span::empty(),
+                // newtypes should be handled differently
+                // and only return the inner value instead of a range of values
+                if vals.len() == 1 {
+                    vals.pop().unwrap()
+                } else {
+                    Value::List {
+                        vals,
+                        span: Span::empty(),
+                    }
                 }
             }
             rusty_value::Fields::Unit => Value::Nothing {
