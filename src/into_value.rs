@@ -3,7 +3,8 @@ use rusty_value::{Fields, HashableValue, RustyValue};
 
 use crate::utils::NewEmpty;
 
-pub struct RawValue(Value);
+/// A helper struct to allow IntoValue operations for nu values
+pub struct RawValue(pub Value);
 
 /// Converts the given type into a value
 /// This trait is implemented for all types that
