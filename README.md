@@ -1,5 +1,8 @@
 # embed-nu
 
+[![](https://img.shields.io/crates/v/embed-nu?style=for-the-badge)](https://crates.io/crates/embed-nu)
+[![](https://img.shields.io/docsrs/embed-nu/latest?style=for-the-badge)](https://docs.rs/embed-nu/)
+
 *embed-nu* can be used to call [nu](https://github.com/nushell/nushell) scripts and expressions
 from within your rust application. This crate provides a wrapper around the nu engine to easily build
 the nu execution context, parse scripts and call functions. As this crate includes nu as a dependency
@@ -8,7 +11,7 @@ calls to nu don't have the overhead of calling an external application.
 ## Example Usage
 
 ```rust
-use embed_nu::{rusty_value::RustyValue, CommandGroupConfig, Context, NewEmpty, PipelineData};
+use embed_nu::{RustyValue, CommandGroupConfig, Context, NewEmpty, PipelineData};
 
 fn main() {
   let mut ctx = Context::builder()
@@ -54,7 +57,7 @@ This crate uses [rusty-value](https://github.com/Trivernis/rusty-value) to conve
 data type into nu values.
 
 ```rust
-use embed_nu::{rusty_value::RustyValue, IntoValue};
+use embed_nu::{RustyValue, IntoValue};
 
 
 // derive rusty value
