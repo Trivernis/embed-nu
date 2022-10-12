@@ -12,7 +12,6 @@ pub use into_expression::*;
 pub use into_value::*;
 pub use nu_protocol::{PipelineData, Value};
 pub use rusty_value;
-pub use rusty_value::RustyValue;
 pub use utils::NewEmpty;
 
 pub type Error = error::CrateError;

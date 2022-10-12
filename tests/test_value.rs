@@ -1,6 +1,5 @@
 use embed_nu::IntoValue;
-use nu_protocol::Value;
-use rusty_value::RustyValue;
+use rusty_value::*;
 use std::{mem, path::PathBuf};
 
 #[derive(RustyValue, Debug, Clone)]

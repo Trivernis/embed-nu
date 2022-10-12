@@ -11,7 +11,7 @@ calls to nu don't have the overhead of calling an external application.
 ## Example Usage
 
 ```rust
-use embed_nu::{RustyValue, CommandGroupConfig, Context, NewEmpty, PipelineData};
+use embed_nu::{rusty_value::*, CommandGroupConfig, Context, NewEmpty, PipelineData};
 
 fn main() {
   let mut ctx = Context::builder()
@@ -57,7 +57,7 @@ This crate uses [rusty-value](https://github.com/Trivernis/rusty-value) to conve
 data type into nu values.
 
 ```rust
-use embed_nu::{RustyValue, IntoValue};
+use embed_nu::{rusty_value::*, IntoValue};
 
 
 // derive rusty value

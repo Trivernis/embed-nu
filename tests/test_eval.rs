@@ -1,4 +1,5 @@
-use embed_nu::{CommandGroupConfig, Context, NewEmpty, PipelineData, RustyValue};
+use embed_nu::rusty_value::*;
+use embed_nu::{CommandGroupConfig, Context, NewEmpty, PipelineData};
 
 #[test]
 fn it_evals_strings() {
