@@ -7,7 +7,7 @@ use std::env;
 
 use nu_protocol::{
     ast::Block,
-    engine::{EngineState, Stack, StateWorkingSet},
+    engine::{Command, EngineState, Stack, StateWorkingSet},
     PipelineData, Span,
 };
 
@@ -32,13 +32,13 @@ impl Default for ContextBuilder {
 
 impl ContextBuilder {
     /// Enables certain command groups specified in the Config on the state
-    pub fn with_command_groups(mut self, group_config: CommandGroupConfig) -> Self {
+    pub fn with_command_groups(mut self, group_config: CommandGroupConfig) -> CrateResult<Self> {
         macro_rules! toggle_command_groups {
             ($($group:ident),*) => {
                 paste::item!(
                 $(
                     if group_config.$group {
-                        super::bindings::[<bind_ $group _commands>](&mut self.engine_state);
+                        super::bindings::[<bind_ $group _commands>](&mut self.engine_state)?;
                     }
                 )*
                 )
@@ -70,7 +70,19 @@ impl ContextBuilder {
             hash,
             experimental
         );
-        self
+        Ok(self)
+    }
+
+    /// Adds a custom command to the engine that can be used inside nu expressions
+    /// This method can also be used to pass nu builtin commands to enable single commands
+    /// Instead of whole command groups
+    pub fn add_command<C: Command + 'static>(mut self, command: C) -> CrateResult<Self> {
+        let mut working_set = StateWorkingSet::new(&self.engine_state);
+        working_set.add_decl(Box::new(command));
+        let delta = working_set.render();
+        self.engine_state.merge_delta(delta)?;
+
+        Ok(self)
     }
 
     /// Adds a variable to the state

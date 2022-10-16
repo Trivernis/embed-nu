@@ -16,6 +16,7 @@ use embed_nu::{rusty_value::*, CommandGroupConfig, Context, NewEmpty, PipelineDa
 fn main() {
   let mut ctx = Context::builder()
     .with_command_groups(CommandGroupConfig::default().all_groups(true))
+    .unwrap()
     .add_parent_env_vars()
     .build()
     .unwrap();
@@ -73,7 +74,7 @@ fn main() {
     bar: 12
   };
   // convert this struct into a nu value
-  // this is also done implicitely when passing the value to the nu context
+  // this is also done implicitly when passing the value to the nu context
   // as function arguments or variables
   let value = instance.into_value();
   dbg!(value);

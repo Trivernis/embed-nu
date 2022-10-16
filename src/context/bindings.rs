@@ -1,15 +1,17 @@
 use nu_command::*;
 use nu_protocol::engine::{EngineState, StateWorkingSet};
 
+use crate::error::CrateResult;
+
 macro_rules! bind_commands {
             ($engine_state:expr, $( $command:expr),* $(,)? ) => {
                 bind($engine_state, |working_set| {
                         $( working_set.add_decl(Box::new($command)); )*
-                });
+                })
             };
         }
 
-pub fn bind_core_commands(engine_state: &mut EngineState) {
+pub fn bind_core_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands!(
         engine_state,
         Alias,
@@ -45,14 +47,14 @@ pub fn bind_core_commands(engine_state: &mut EngineState) {
         Module,
         Use,
         Version,
-    );
+    )
 }
 
-pub fn bind_chart_commands(engine_state: &mut EngineState) {
-    bind_commands!(engine_state, Histogram);
+pub fn bind_chart_commands(engine_state: &mut EngineState) -> CrateResult<()> {
+    bind_commands!(engine_state, Histogram)
 }
 
-pub fn bind_filter_commands(engine_state: &mut EngineState) {
+pub fn bind_filter_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         All,
@@ -116,14 +118,14 @@ pub fn bind_filter_commands(engine_state: &mut EngineState) {
         Window,
         Wrap,
         Zip,
-    };
+    }
 }
 
-pub fn bind_misc_commands(engine_state: &mut EngineState) {
-    bind_commands!(engine_state, History, Tutor, HistorySession);
+pub fn bind_misc_commands(engine_state: &mut EngineState) -> CrateResult<()> {
+    bind_commands!(engine_state, History, Tutor, HistorySession)
 }
 
-pub fn bind_path_commands(engine_state: &mut EngineState) {
+pub fn bind_path_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Path,
@@ -136,10 +138,10 @@ pub fn bind_path_commands(engine_state: &mut EngineState) {
         PathRelativeTo,
         PathSplit,
         PathType,
-    };
+    }
 }
 
-pub fn bind_system_commands(engine_state: &mut EngineState) {
+pub fn bind_system_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Benchmark,
@@ -149,10 +151,10 @@ pub fn bind_system_commands(engine_state: &mut EngineState) {
         NuCheck,
         Sys,
         Ps,
-    };
+    }
 }
 
-pub fn bind_string_commands(engine_state: &mut EngineState) {
+pub fn bind_string_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         BuildString,
@@ -195,10 +197,10 @@ pub fn bind_string_commands(engine_state: &mut EngineState) {
         StrTrim,
         StrTitleCase,
         StrUpcase
-    };
+    }
 }
 
-pub fn bind_bit_commands(engine_state: &mut EngineState) {
+pub fn bind_bit_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Bits,
@@ -213,7 +215,7 @@ pub fn bind_bit_commands(engine_state: &mut EngineState) {
     }
 }
 
-pub fn bind_byte_commands(engine_state: &mut EngineState) {
+pub fn bind_byte_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Bytes,
@@ -231,7 +233,7 @@ pub fn bind_byte_commands(engine_state: &mut EngineState) {
     }
 }
 
-pub fn bind_file_system_commands(engine_state: &mut EngineState) {
+pub fn bind_file_system_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Cd,
@@ -245,10 +247,10 @@ pub fn bind_file_system_commands(engine_state: &mut EngineState) {
         Touch,
         Glob,
         Watch,
-    };
+    }
 }
 
-pub fn bind_platform_commands(engine_state: &mut EngineState) {
+pub fn bind_platform_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Ansi,
@@ -264,10 +266,10 @@ pub fn bind_platform_commands(engine_state: &mut EngineState) {
         KeybindingsList,
         Sleep,
         TermSize,
-    };
+    }
 }
 
-pub fn bind_date_commands(engine_state: &mut EngineState) {
+pub fn bind_date_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Date,
@@ -278,10 +280,10 @@ pub fn bind_date_commands(engine_state: &mut EngineState) {
         DateToRecord,
         DateToTable,
         DateToTimezone,
-    };
+    }
 }
 
-pub fn bind_shell_commands(engine_state: &mut EngineState) {
+pub fn bind_shell_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Enter,
@@ -290,10 +292,10 @@ pub fn bind_shell_commands(engine_state: &mut EngineState) {
         NextShell,
         PrevShell,
         Shells,
-    };
+    }
 }
 
-pub fn bind_format_commands(engine_state: &mut EngineState) {
+pub fn bind_format_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         From,
@@ -330,18 +332,18 @@ pub fn bind_format_commands(engine_state: &mut EngineState) {
         ToUrl,
         ToXml,
         ToYaml,
-    };
+    }
 }
 
-pub fn bind_viewer_commands(engine_state: &mut EngineState) {
+pub fn bind_viewer_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Griddle,
         Table,
-    };
+    }
 }
 
-pub fn bind_conversion_commands(engine_state: &mut EngineState) {
+pub fn bind_conversion_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Fmt,
@@ -354,10 +356,10 @@ pub fn bind_conversion_commands(engine_state: &mut EngineState) {
         IntoFilesize,
         IntoInt,
         IntoString,
-    };
+    }
 }
 
-pub fn bind_environment_commands(engine_state: &mut EngineState) {
+pub fn bind_environment_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Env,
@@ -368,10 +370,10 @@ pub fn bind_environment_commands(engine_state: &mut EngineState) {
         WithEnv,
         // nu config commands have been removed as editing isn't possible
         // in this environment
-    };
+    }
 }
 
-pub fn bind_math_commands(engine_state: &mut EngineState) {
+pub fn bind_math_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Math,
@@ -390,10 +392,10 @@ pub fn bind_math_commands(engine_state: &mut EngineState) {
         MathStddev,
         MathSum,
         MathVariance,
-    };
+    }
 }
 
-pub fn bind_network_commands(engine_state: &mut EngineState) {
+pub fn bind_network_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Fetch,
@@ -407,7 +409,7 @@ pub fn bind_network_commands(engine_state: &mut EngineState) {
     }
 }
 
-pub fn bind_random_commands(engine_state: &mut EngineState) {
+pub fn bind_random_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Random,
@@ -417,42 +419,44 @@ pub fn bind_random_commands(engine_state: &mut EngineState) {
         RandomDice,
         RandomInteger,
         RandomUuid,
-    };
+    }
 }
 
-pub fn bind_generator_commands(engine_state: &mut EngineState) {
+pub fn bind_generator_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Cal,
         Seq,
         SeqDate,
         SeqChar,
-    };
+    }
 }
 
-pub fn bind_hash_commands(engine_state: &mut EngineState) {
+pub fn bind_hash_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Hash,
         HashMd5::default(),
         HashSha256::default(),
-    };
+    }
 }
 
-pub fn bind_experimental_commands(engine_state: &mut EngineState) {
+pub fn bind_experimental_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         ViewSource,
         IsAdmin,
-    };
+    }
 }
 
 #[inline]
-fn bind<F: Fn(&mut StateWorkingSet)>(engine_state: &mut EngineState, bind_fn: F) {
+fn bind<F: Fn(&mut StateWorkingSet)>(
+    engine_state: &mut EngineState,
+    bind_fn: F,
+) -> CrateResult<()> {
     let mut working_set = StateWorkingSet::new(engine_state);
     bind_fn(&mut working_set);
     let delta = working_set.render();
-    engine_state
-        .merge_delta(delta)
-        .expect("Failed to bind commands");
+    engine_state.merge_delta(delta)?;
+    Ok(())
 }
