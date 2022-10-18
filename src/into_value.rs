@@ -21,7 +21,7 @@ impl IntoValue for RawValue {
 }
 
 /// Helper trait to avoid conflicts
-pub(crate) trait RustyIntoValue {
+pub trait RustyIntoValue {
     fn into_value(self) -> Value;
 }
 
