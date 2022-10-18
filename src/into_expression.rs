@@ -9,7 +9,7 @@ pub trait IntoExpression {
     fn into_expression(self) -> Expression;
 }
 
-trait ValueIntoExpression {
+pub trait ValueIntoExpression {
     fn into_expression(self) -> Expression;
     fn into_expr(self) -> Expr;
 }
