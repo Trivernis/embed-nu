@@ -15,6 +15,15 @@ fn it_evals_strings() {
     ctx.print_pipeline(pipeline).unwrap()
 }
 
+#[test]
+fn it_returns_variables() {
+    let mut ctx = get_context();
+    ctx.eval_raw(r#"let hello = 'world'"#, PipelineData::empty())
+        .unwrap();
+    let val = ctx.get_var("hello").expect("No variable returned");
+    assert_eq!(val.as_string().unwrap(), String::from("world"))
+}
+
 #[derive(RustyValue)]
 struct TestArg {
     foo: String,

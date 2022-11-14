@@ -54,6 +54,22 @@ impl Context {
         self.eval_block(&block, input)
     }
 
+    /// Returns a variable defined in the stack
+    pub fn get_var<S: AsRef<str>>(&mut self, name: S) -> Option<nu_protocol::Value> {
+        let name = name.as_ref();
+        let dollar_name = format!("${name}");
+        let var_id = self
+            .engine_state
+            .active_overlays(&vec![])
+            .iter()
+            .find_map(|o| {
+                o.vars
+                    .get(dollar_name.as_bytes())
+                    .or(o.vars.get(name.as_bytes()))
+            })?;
+        self.stack.get_var(*var_id, Span::new(0, 0)).ok()
+    }
+
     /// Returns if the given function exists in the context
     pub fn has_fn<S: AsRef<str>>(&mut self, name: S) -> bool {
         self.engine_state
