@@ -55,7 +55,7 @@ impl Context {
     }
 
     /// Returns a variable defined in the stack
-    pub fn get_var<S: AsRef<str>>(&mut self, name: S) -> Option<nu_protocol::Value> {
+    pub fn get_var<S: AsRef<str>>(&self, name: S) -> Option<nu_protocol::Value> {
         let name = name.as_ref();
         let dollar_name = format!("${name}");
         let var_id = self
