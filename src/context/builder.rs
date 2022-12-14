@@ -93,6 +93,7 @@ impl ContextBuilder {
             name.to_string().into_bytes(),
             Span::empty(),
             nu_protocol::Type::Any,
+            false,
         );
         self.stack.add_var(var_id, value.into_value());
         let delta = working_set.render();
