@@ -22,7 +22,7 @@ impl Diagnostic for CrateError {
         match self {
             CrateError::NuShellError(n) => n.code(),
             CrateError::NuParseError(n) => n.code(),
-            _ => None,
+            Self::FunctionNotFound(_) => Some(Box::new("embed_nu::fn_not_found")),
         }
     }
 
@@ -38,7 +38,9 @@ impl Diagnostic for CrateError {
         match self {
             CrateError::NuShellError(n) => n.help(),
             CrateError::NuParseError(n) => n.help(),
-            _ => None,
+            CrateError::FunctionNotFound(_) => Some(Box::new(
+                "Make sure the function you want to execute is defined at this point.",
+            )),
         }
     }
 
