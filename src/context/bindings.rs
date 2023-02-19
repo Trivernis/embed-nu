@@ -334,7 +334,6 @@ pub fn bind_format_commands(engine_state: &mut EngineState) -> CrateResult<()> {
         Use,
         Upsert,
         Where,
-        ToUrl,
         ToXml,
         ToYaml,
     }
@@ -386,7 +385,6 @@ pub fn bind_math_commands(engine_state: &mut EngineState) -> CrateResult<()> {
         MathAbs,
         MathAvg,
         MathCeil,
-        MathEval,
         MathFloor,
         MathMax,
         MathMedian,
@@ -404,8 +402,6 @@ pub fn bind_math_commands(engine_state: &mut EngineState) -> CrateResult<()> {
 pub fn bind_network_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
-        Fetch,
-        Post,
         Url,
         UrlParse,
         Port,

@@ -1,5 +1,5 @@
 use embed_nu::{rusty_value::*, IntoValue};
-use embed_nu::{CommandGroupConfig, Context, NewEmpty, PipelineData};
+use embed_nu::{CommandGroupConfig, Context, PipelineData};
 use nu_protocol::engine::Command;
 use nu_protocol::{Config, Signature, SyntaxShape};
 

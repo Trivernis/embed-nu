@@ -10,10 +10,10 @@ authors = ["trivernis <trivernis@proton.me>"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-nu-command = "0.72.0"
-nu-engine = "0.72.0"
-nu-parser = "0.72.0"
-nu-protocol = "0.72.0"
-paste = "1.0.10"
+nu-command = "0.75.0"
+nu-engine = "0.75.0"
+nu-parser = "0.75.0"
+nu-protocol = "0.75.0"
+paste = "1.0.11"
 rusty-value = { version = "0.6.0", features = ["derive"] }
-thiserror = "1.0.37"
+thiserror = "1.0.38"

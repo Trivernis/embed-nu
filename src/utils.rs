@@ -1,7 +1,7 @@
 use nu_protocol::{
     ast::Block,
     engine::{EngineState, StateWorkingSet},
-    PipelineData, Span,
+    Span,
 };
 
 use crate::error::{CrateError, CrateResult};
@@ -14,13 +14,6 @@ impl NewEmpty for Span {
     #[inline]
     fn empty() -> Self {
         Span::new(0, 0)
-    }
-}
-
-impl NewEmpty for PipelineData {
-    #[inline]
-    fn empty() -> Self {
-        Self::new(Span::empty())
     }
 }
 

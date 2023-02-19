@@ -99,6 +99,7 @@ impl Context {
             arguments: args,
             redirect_stdout: true,
             redirect_stderr: true,
+            parser_info: Vec::new(),
         };
 
         let data = nu_engine::eval_call(
