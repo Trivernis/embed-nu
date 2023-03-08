@@ -147,17 +147,33 @@ pub fn bind_path_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     }
 }
 
+#[cfg(windows)]
 pub fn bind_system_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
         Benchmark,
         Complete,
-        Exec,
         External,
         NuCheck,
         Sys,
         Ps,
         Which,
+        RegistryQuery
+    }
+}
+
+#[cfg(unix)]
+pub fn bind_system_commands(engine_state: &mut EngineState) -> CrateResult<()> {
+    bind_commands! {
+        engine_state,
+        Benchmark,
+        Complete,
+        External,
+        NuCheck,
+        Sys,
+        Ps,
+        Which,
+        Exec
     }
 }
 
