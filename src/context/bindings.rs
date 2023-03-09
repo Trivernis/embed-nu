@@ -177,6 +177,20 @@ pub fn bind_system_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     }
 }
 
+#[cfg(not(any(unix, windows)))]
+pub fn bind_system_commands(engine_state: &mut EngineState) -> CrateResult<()> {
+    bind_commands! {
+        engine_state,
+        Benchmark,
+        Complete,
+        External,
+        NuCheck,
+        Sys,
+        Ps,
+        Which
+    }
+}
+
 pub fn bind_string_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
