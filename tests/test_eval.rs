@@ -24,6 +24,16 @@ fn it_returns_variables() {
     assert_eq!(val.as_string().unwrap(), String::from("world"))
 }
 
+#[test]
+fn it_sets_variables() {
+    let mut ctx = get_context();
+    ctx.set_var("world", "world".into_value()).unwrap();
+    ctx.eval_raw(r#"let hello = $world"#, PipelineData::empty())
+        .unwrap();
+    let val = ctx.get_var("hello").expect("No variable returned");
+    assert_eq!(val.as_string().unwrap(), String::from("world"))
+}
+
 #[derive(RustyValue)]
 struct TestArg {
     foo: String,
@@ -35,12 +45,12 @@ fn it_executes_functions() {
     let mut ctx = get_context();
     ctx.eval_raw(
         r#"
-    
+
         def hello [] {
             echo "Hello World from this script";
             echo # dummy echo so I don't have to print the output
-        }        
-        
+        }
+
     "#,
         PipelineData::empty(),
     )

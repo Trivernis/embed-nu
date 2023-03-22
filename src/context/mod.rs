@@ -5,8 +5,8 @@ pub use builder::*;
 pub use command_group_config::CommandGroupConfig;
 use nu_protocol::{
     ast::{Block, Call},
-    engine::{EngineState, Stack},
-    PipelineData, Span,
+    engine::{EngineState, Stack, StateWorkingSet},
+    PipelineData, Span, Type,
 };
 
 use crate::{
@@ -68,6 +68,21 @@ impl Context {
                     .or(o.vars.get(name.as_bytes()))
             })?;
         self.stack.get_var(*var_id, Span::new(0, 0)).ok()
+    }
+
+    /// Define a variable on the stack
+    pub fn set_var<S: AsRef<str>>(
+        &mut self,
+        name: S,
+        value: nu_protocol::Value,
+    ) -> CrateResult<()> {
+        let name = name.as_ref();
+        let dollar_name = format!("${name}").as_bytes().to_vec();
+        let mut state = StateWorkingSet::new(&self.engine_state);
+        let var_id = state.add_variable(dollar_name, Span::new(0, 0), Type::Any, true);
+        self.engine_state.merge_delta(state.delta)?;
+        self.stack.add_var(var_id, value);
+        Ok(())
     }
 
     /// Returns if the given function exists in the context
