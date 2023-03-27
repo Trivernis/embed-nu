@@ -5,7 +5,7 @@ pub use builder::*;
 pub use command_group_config::CommandGroupConfig;
 use nu_protocol::{
     ast::{Block, Call},
-    engine::{EngineState, Stack},
+    engine::{EngineState, Stack, StateWorkingSet},
     PipelineData, Span,
 };
 
@@ -13,7 +13,7 @@ use crate::{
     argument::IntoArgument,
     error::{CrateError, CrateResult},
     utils::parse_nu_script,
-    NewEmpty,
+    IntoValue, NewEmpty,
 };
 
 /// Represents the evaluation context of nu scripts and commands
@@ -122,6 +122,23 @@ impl Context {
     /// Prints the data of the given pipeline to stderr
     pub fn print_pipeline_stderr(&mut self, pipeline: PipelineData) -> CrateResult<()> {
         pipeline.print(&self.engine_state, &mut self.stack, false, true)?;
+
+        Ok(())
+    }
+
+    /// Adds a variable to the context
+    pub fn add_var<S: ToString, V: IntoValue>(&mut self, name: S, value: V) -> CrateResult<()> {
+        let mut working_set = StateWorkingSet::new(&self.engine_state);
+
+        let var_id = working_set.add_variable(
+            name.to_string().into_bytes(),
+            Span::empty(),
+            nu_protocol::Type::Any,
+            false,
+        );
+        self.stack.add_var(var_id, value.into_value());
+        let delta = working_set.render();
+        self.engine_state.merge_delta(delta)?;
 
         Ok(())
     }

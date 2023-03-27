@@ -24,6 +24,15 @@ fn it_returns_variables() {
     assert_eq!(val.as_string().unwrap(), String::from("world"))
 }
 
+#[test]
+fn it_accepts_variables() {
+    let mut ctx = get_context();
+    ctx.add_var("hello", "world").unwrap();
+
+    let val = ctx.get_var("hello").expect("No variable returned");
+    assert_eq!(val.as_string().unwrap(), String::from("world"))
+}
+
 #[derive(RustyValue)]
 struct TestArg {
     foo: String,
