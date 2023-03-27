@@ -1,7 +1,7 @@
-use embed_nu::{rusty_value::*, IntoValue};
+use embed_nu::{rusty_value::*, IntoValue, NewEmpty};
 use embed_nu::{CommandGroupConfig, Context, PipelineData};
 use nu_protocol::engine::Command;
-use nu_protocol::{Config, Signature, SyntaxShape};
+use nu_protocol::{Config, Signature, Span, SyntaxShape};
 
 #[test]
 fn it_evals_strings() {
@@ -30,6 +30,13 @@ fn it_accepts_variables() {
     ctx.add_var("hello", "world").unwrap();
 
     let val = ctx.get_var("hello").expect("No variable returned");
+    assert_eq!(val.as_string().unwrap(), String::from("world"));
+
+    let val = ctx
+        .eval_raw(r#"$hello"#, PipelineData::empty())
+        .unwrap()
+        .into_value(Span::empty());
+
     assert_eq!(val.as_string().unwrap(), String::from("world"))
 }
 
