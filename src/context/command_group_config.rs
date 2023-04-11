@@ -36,6 +36,8 @@ macro_rules! command_group_config {
 command_group_config!(
     /// Enables core commands
     core,
+    /// Enables debug commands
+    debug,
     /// Enables filter commands
     filter,
     /// Enables chart commands

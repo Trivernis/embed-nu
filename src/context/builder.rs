@@ -47,6 +47,7 @@ impl ContextBuilder {
 
         toggle_command_groups!(
             core,
+            debug,
             filter,
             chart,
             misc,
