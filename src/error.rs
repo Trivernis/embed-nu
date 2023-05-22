@@ -12,7 +12,7 @@ pub enum CrateError {
 
     #[error("Parse Error {0:?}")]
     #[diagnostic()]
-    NuParseErrors(Vec<ParseError>),
+    NuParseErrors(#[related] Vec<ParseError>),
 
     #[error("Could not find the function {0}")]
     #[diagnostic()]
