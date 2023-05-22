@@ -19,7 +19,6 @@ pub fn bind_core_commands(engine_state: &mut EngineState) -> CrateResult<()> {
         Alias,
         Break,
         Collect,
-        Commandline,
         Const,
         Continue,
         Def,
@@ -157,7 +156,7 @@ pub fn bind_filter_commands(engine_state: &mut EngineState) -> CrateResult<()> {
 }
 
 pub fn bind_misc_commands(engine_state: &mut EngineState) -> CrateResult<()> {
-    bind_commands!(engine_state, History, Tutor, HistorySession)
+    bind_commands!(engine_state, Tutor)
 }
 
 pub fn bind_path_commands(engine_state: &mut EngineState) -> CrateResult<()> {
@@ -319,12 +318,8 @@ pub fn bind_platform_commands(engine_state: &mut EngineState) -> CrateResult<()>
         AnsiStrip,
         Clear,
         Du,
-        KeybindingsDefault,
         Input,
-        KeybindingsListen,
-        Keybindings,
         Kill,
-        KeybindingsList,
         Sleep,
         TermSize,
     }
@@ -347,12 +342,7 @@ pub fn bind_date_commands(engine_state: &mut EngineState) -> CrateResult<()> {
 pub fn bind_shell_commands(engine_state: &mut EngineState) -> CrateResult<()> {
     bind_commands! {
         engine_state,
-        Enter,
         Exit,
-        GotoShell,
-        NextShell,
-        PrevShell,
-        Shells,
     }
 }
 

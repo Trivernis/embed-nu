@@ -19,14 +19,14 @@ impl NewEmpty for Span {
 
 pub fn parse_nu_script(engine_state: &mut EngineState, contents: String) -> CrateResult<Block> {
     let mut working_set = StateWorkingSet::new(&engine_state);
-    let (block, err) = nu_parser::parse(&mut working_set, None, &contents.into_bytes(), false, &[]);
+    let block = nu_parser::parse(&mut working_set, None, &contents.into_bytes(), false);
 
-    if let Some(err) = err {
-        Err(CrateError::from(err))
-    } else {
+    if working_set.parse_errors.is_empty() {
         let delta = working_set.render();
         engine_state.merge_delta(delta)?;
 
         Ok(block)
+    } else {
+        Err(CrateError::NuParseErrors(working_set.parse_errors))
     }
 }

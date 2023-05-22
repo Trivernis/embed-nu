@@ -1,6 +1,8 @@
 mod bindings;
 mod builder;
 mod command_group_config;
+use std::collections::HashMap;
+
 pub use builder::*;
 pub use command_group_config::CommandGroupConfig;
 use nu_protocol::{
@@ -58,15 +60,11 @@ impl Context {
     pub fn get_var<S: AsRef<str>>(&self, name: S) -> Option<nu_protocol::Value> {
         let name = name.as_ref();
         let dollar_name = format!("${name}");
-        let var_id = self
-            .engine_state
-            .active_overlays(&vec![])
-            .iter()
-            .find_map(|o| {
-                o.vars
-                    .get(dollar_name.as_bytes())
-                    .or(o.vars.get(name.as_bytes()))
-            })?;
+        let var_id = self.engine_state.active_overlays(&vec![]).find_map(|o| {
+            o.vars
+                .get(dollar_name.as_bytes())
+                .or(o.vars.get(name.as_bytes()))
+        })?;
         self.stack.get_var(*var_id, Span::new(0, 0)).ok()
     }
 
@@ -99,7 +97,7 @@ impl Context {
             arguments: args,
             redirect_stdout: true,
             redirect_stderr: true,
-            parser_info: Vec::new(),
+            parser_info: HashMap::new(),
         };
 
         let data = nu_engine::eval_call(

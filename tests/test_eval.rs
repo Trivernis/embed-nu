@@ -16,6 +16,13 @@ fn it_evals_strings() {
 }
 
 #[test]
+fn it_reports_parse_errors() {
+    let mut ctx = get_context();
+    let eval_result = ctx.eval_raw(r#"let a = 1 | 2 | 3"#, PipelineData::empty());
+    assert!(eval_result.is_err());
+}
+
+#[test]
 fn it_returns_variables() {
     let mut ctx = get_context();
     ctx.eval_raw(r#"let hello = 'world'"#, PipelineData::empty())
