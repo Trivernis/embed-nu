@@ -18,7 +18,7 @@ fn it_evals_strings() {
 #[test]
 fn it_reports_parse_errors() {
     let mut ctx = get_context();
-    let eval_result = ctx.eval_raw(r#"let a = 1 | 2 | 3"#, PipelineData::empty());
+    let eval_result = ctx.eval_raw(r#"let a = 1 || 2"#, PipelineData::empty());
     assert!(eval_result.is_err());
 }
 

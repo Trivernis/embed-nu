@@ -54,7 +54,6 @@ impl ContextBuilder {
             path,
             system,
             string,
-            bit,
             byte,
             file_system,
             platform,

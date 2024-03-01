@@ -1,4 +1,4 @@
-use nu_protocol::{Span, Value};
+use nu_protocol::{Record, Span, Value};
 use rusty_value::{Fields, HashableValue, RustyValue};
 
 use crate::utils::NewEmpty;
@@ -48,7 +48,7 @@ impl RustyIntoValue for Vec<Value> {
     fn into_value(self) -> Value {
         Value::List {
             vals: self,
-            span: Span::empty(),
+            internal_span: Span::empty(),
         }
     }
 }
@@ -61,7 +61,7 @@ impl RustyIntoValue for rusty_value::Value {
                 if let Fields::Unit = &s.fields {
                     Value::String {
                         val: s.name,
-                        span: Span::empty(),
+                        internal_span: Span::empty(),
                     }
                 } else {
                     s.fields.into_value()
@@ -71,7 +71,7 @@ impl RustyIntoValue for rusty_value::Value {
                 if let Fields::Unit = &e.fields {
                     Value::String {
                         val: e.variant,
-                        span: Span::empty(),
+                        internal_span: Span::empty(),
                     }
                 } else {
                     e.fields.into_value()
@@ -86,9 +86,8 @@ impl RustyIntoValue for rusty_value::Value {
                     vals.push(val.into_value());
                 }
                 Value::Record {
-                    cols,
-                    vals,
-                    span: Span::empty(),
+                    val: Record::from_raw_cols_vals_unchecked(cols, vals),
+                    internal_span: Span::empty(),
                 }
             }
             rusty_value::Value::List(l) => {
@@ -96,11 +95,11 @@ impl RustyIntoValue for rusty_value::Value {
 
                 Value::List {
                     vals,
-                    span: Span::empty(),
+                    internal_span: Span::empty(),
                 }
             }
             rusty_value::Value::None => Value::Nothing {
-                span: Span::empty(),
+                internal_span: Span::empty(),
             },
         }
     }
@@ -113,15 +112,15 @@ impl RustyIntoValue for rusty_value::Primitive {
             rusty_value::Primitive::Float(f) => f.into_value(),
             rusty_value::Primitive::String(val) => Value::String {
                 val,
-                span: Span::empty(),
+                internal_span: Span::empty(),
             },
             rusty_value::Primitive::Char(val) => Value::String {
                 val: val.to_string(),
-                span: Span::empty(),
+                internal_span: Span::empty(),
             },
             rusty_value::Primitive::Bool(val) => Value::Bool {
                 val,
-                span: Span::empty(),
+                internal_span: Span::empty(),
             },
             rusty_value::Primitive::OsString(osstr) => osstr.to_string_lossy().into_value(),
         }
@@ -140,9 +139,8 @@ impl RustyIntoValue for rusty_value::Fields {
                     vals.push(v.into_value());
                 }
                 Value::Record {
-                    cols,
-                    vals,
-                    span: Span::empty(),
+                    val: Record::from_raw_cols_vals_unchecked(cols, vals),
+                    internal_span: Span::empty(),
                 }
             }
             rusty_value::Fields::Unnamed(unnamed) => {
@@ -158,12 +156,12 @@ impl RustyIntoValue for rusty_value::Fields {
                 } else {
                     Value::List {
                         vals,
-                        span: Span::empty(),
+                        internal_span: Span::empty(),
                     }
                 }
             }
             rusty_value::Fields::Unit => Value::Nothing {
-                span: Span::empty(),
+                internal_span: Span::empty(),
             },
         }
     }
@@ -187,7 +185,7 @@ impl RustyIntoValue for rusty_value::Integer {
         };
         Value::Int {
             val,
-            span: Span::empty(),
+            internal_span: Span::empty(),
         }
     }
 }
@@ -201,7 +199,7 @@ impl RustyIntoValue for rusty_value::Float {
         };
         Value::Float {
             val,
-            span: Span::empty(),
+            internal_span: Span::empty(),
         }
     }
 }
