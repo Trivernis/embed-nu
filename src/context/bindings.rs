@@ -2,7 +2,7 @@ use nu_cmd_lang::*;
 use nu_command::*;
 use nu_protocol::engine::{EngineState, StateWorkingSet};
 
-use crate::error::CrateResult;
+use crate::{commands::PrintCommand, error::CrateResult};
 
 macro_rules! bind_commands {
     ($engine_state:expr, $( $command:expr),* $(,)? ) => {
@@ -42,6 +42,7 @@ pub fn bind_core_commands(engine_state: &mut EngineState) -> CrateResult<()> {
         Hide,
         HideEnv,
         If,
+        PrintCommand,
         Ignore,
         Overlay,
         OverlayUse,
@@ -66,6 +67,7 @@ pub fn bind_debug_commands(engine_state: &mut EngineState) -> CrateResult<()> {
         engine_state,
         Ast,
         Debug,
+        DebugInfo,
         Explain,
         Inspect,
         Metadata,
@@ -106,6 +108,7 @@ pub fn bind_filter_commands(engine_state: &mut EngineState) -> CrateResult<()> {
             GroupBy,
             Headers,
             Insert,
+            Items,
             Join,
             SplitBy,
             Take,

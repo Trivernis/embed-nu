@@ -1,5 +1,6 @@
 #![doc=include_str!("../README.md")]
 pub(crate) mod argument;
+pub mod commands;
 pub(crate) mod context;
 pub(crate) mod error;
 pub(crate) mod into_expression;

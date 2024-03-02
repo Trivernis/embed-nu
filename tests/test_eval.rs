@@ -16,6 +16,16 @@ fn it_evals_strings() {
 }
 
 #[test]
+fn it_evals_print() {
+    let mut ctx = get_context();
+    ctx.eval_raw(
+        r#"print "Hello World from this eval using print""#,
+        PipelineData::empty(),
+    )
+    .unwrap();
+}
+
+#[test]
 fn it_reports_parse_errors() {
     let mut ctx = get_context();
     let eval_result = ctx.eval_raw(r#"let a = 1 || 2"#, PipelineData::empty());
